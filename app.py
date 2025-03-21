@@ -31,7 +31,7 @@ def enable_and_start_service():
 
 # Main function to create the service, timer and run the necessary commands
 def run(camera_ip, port_forward, server_ip):
-    ssh_command = f'/usr/bin/ssh -N -R {port_forward}:{camera_ip}:80 -i /home/pi/Work/dahuatunnel.pem ubuntu@{server_ip}'
+    ssh_command = f'/usr/bin/ssh -N -R {port_forward}:{camera_ip}:80 -i /home/pi/Work/dahuatunnel.pem ubuntu@{server_ip} -o StrictHostKeyChecking=no'
     # Define paths for the service and timer files
     service_file_path = '/etc/systemd/system/start_forwarding.service'
     # Define the SSH tunnel command and necessary details

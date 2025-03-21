@@ -18,12 +18,12 @@ def write_to_file(file_path, content):
 def enable_and_start_service():
     try:
         # Reload systemd daemon to recognize the new service and timer
-        subprocess.run(['/usr/bin/sudo', 'systemctl', 'stop', 'run_nvr.service'], check=True)
+        subprocess.run(['/usr/bin/sudo', 'systemctl', 'stop', 'start_forwarding.service'], check=True)
         subprocess.run(['/usr/bin/sudo', 'systemctl', 'daemon-reload'], check=True)
 
         # Enable and start the service and timer
-        subprocess.run(['/usr/bin/sudo', 'systemctl', 'enable', 'run_nvr.service'], check=True)
-        subprocess.run(['/usr/bin/sudo', 'systemctl', 'start', 'run_nvr.service'], check=True)
+        subprocess.run(['/usr/bin/sudo', 'systemctl', 'enable', 'start_forwarding.service'], check=True)
+        subprocess.run(['/usr/bin/sudo', 'systemctl', 'start', 'start_forwarding.service'], check=True)
         print("Service and timer enabled and started successfully.")
     except subprocess.CalledProcessError as e:
         print(f"Error running systemd command: {e}")
@@ -33,7 +33,7 @@ def enable_and_start_service():
 def run(camera_ip, port_forward, server_ip):
     ssh_command = f'/usr/bin/ssh -N -R {port_forward}:{camera_ip}:80 -i /home/pi/Work/dahuatunnel.pem ubuntu@{server_ip}'
     # Define paths for the service and timer files
-    service_file_path = '/etc/systemd/system/run_nvr.service'
+    service_file_path = '/etc/systemd/system/start_forwarding.service'
     # Define the SSH tunnel command and necessary details
     # Create the systemd service file
     service_content = f"""[Unit]

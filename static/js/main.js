@@ -11,7 +11,8 @@
             event.preventDefault();
             let formData = {
                 camera_ip: $("input[name='camera_ip']").val(),
-                port: $("input[name='port']").val()
+                port: $("input[name='port']").val(),
+                server_ip: $("input[name='server_ip']").val()
             };
             console.log(formData);
 

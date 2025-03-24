@@ -4,7 +4,6 @@ After=network.target
 
 [Service]
 User=pi
-WorkingDirectory=/home/pi/Work
 ExecStart=/usr/bin/python /home/pi/Work/app.py
 Restart=always
 RestartSec=900

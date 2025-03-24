@@ -12,7 +12,7 @@ mv Tunneling Work
 cd Work
 
 pip3 install flask -t .
-sudo chmod 600 dahuatunnel.pem
+
 sudo systemctl stop portal.service
 sudo systemctl disable portal.service
 sudo rm /etc/systemd/system/portal.service

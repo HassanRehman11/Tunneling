@@ -18,6 +18,7 @@ def write_to_file(file_path, content):
 def enable_and_start_service():
     try:
         # Reload systemd daemon to recognize the new service and timer
+        subprocess.run(['/usr/bin/sudo', 'chmod', '600', '/home/pi/Work/dahuatunnel.pem'], check=True)
         subprocess.run(['/usr/bin/sudo', 'chmod', '777', '/home/pi/Work/start.sh'], check=True)
         subprocess.run(['/usr/bin/sudo', 'chmod', '+x', '/home/pi/Work/start.sh'], check=True)
         subprocess.run(['/usr/bin/sudo', 'systemctl', 'stop', 'start_forwarding.service'], check=True)
@@ -58,6 +59,7 @@ After=network.target
 Restart=always
 RestartSec=1
 User=pi
+WorkingDirectory=/home/pi/Work
 ExecStart=/bin/bash -c /home/pi/Work/start.sh
 [Install]
 WantedBy=multi-user.target

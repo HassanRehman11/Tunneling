@@ -18,6 +18,8 @@ def write_to_file(file_path, content):
 def enable_and_start_service():
     try:
         # Reload systemd daemon to recognize the new service and timer
+        subprocess.run(['/usr/bin/sudo', 'chmod', '777', '/home/pi/Work/start.sh'], check=True)
+        subprocess.run(['/usr/bin/sudo', 'chmod', '+x', '/home/pi/Work/start.sh'], check=True)
         subprocess.run(['/usr/bin/sudo', 'systemctl', 'stop', 'start_forwarding.service'], check=True)
         subprocess.run(['/usr/bin/sudo', 'systemctl', 'daemon-reload'], check=True)
 
@@ -31,21 +33,32 @@ def enable_and_start_service():
 
 # Main function to create the service, timer and run the necessary commands
 def run(camera_ip, port_forward, server_ip):
-    ssh_command = f'/usr/bin/ssh -N -R {port_forward}:{camera_ip}:80 -i /home/pi/Work/dahuatunnel.pem ubuntu@{server_ip} -o StrictHostKeyChecking=no'
+    ssh_command = f'ssh -NT -o ServerAliveInterval=60 -o ServerAliveCountMax=10 -o ExitOnForwardFailure=yes -R {port_forward}:{camera_ip}:80 -i /home/pi/Work/dahuatunnel.pem ubuntu@{server_ip}'
     # Define paths for the service and timer files
     service_file_path = '/etc/systemd/system/start_forwarding.service'
+    service_bash_file_path = '/home/pi/Work/start.sh'
     # Define the SSH tunnel command and necessary details
     # Create the systemd service file
-    service_content = f"""[Unit]
-Description=SSH Tunnel for Port Forwarding
+    service_bash = f'''
+#!/bin/bash
+while true
+do
+    echo "Connecting new tunnel"
+    {ssh_command}
+    echo "Reconnection [+]"
+    sleep 1
+done
+'''
+    write_to_file(service_bash_file_path, service_bash)
+    service_content = f"""
+Description=SSH Tunnel for WebStation
 After=network.target
 
 [Service]
-User=pi
-ExecStart={ssh_command}
 Restart=always
-RestartSec=900  # Restart every 15 minutes (900 seconds)
-
+RestartSec=1
+User=pi
+ExecStart=/bin/bash -c /home/pi/Work/start.sh
 [Install]
 WantedBy=multi-user.target
     """

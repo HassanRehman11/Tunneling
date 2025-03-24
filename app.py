@@ -51,8 +51,7 @@ do
 done
 '''
     write_to_file(service_bash_file_path, service_bash)
-    service_content = f"""
-Description=SSH Tunnel for WebStation
+    service_content = f"""Description=SSH Tunnel for WebStation
 After=network.target
 
 [Service]

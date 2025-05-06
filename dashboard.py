@@ -3,9 +3,17 @@ import math
 import time
 import requests
 
-# --- Serial Port Setup ---
-port = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
+# --- Wait for Serial Port to Open ---
+while True:
+    try:
+        port = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
+        print("✅ Serial port opened successfully.")
+        break
+    except serial.SerialException as e:
+        print(f"⏳ Waiting for serial port: {e}")
+        time.sleep(1)
 
+# --- Main Loop ---
 while True:
     try:
         statement = port.read(100)

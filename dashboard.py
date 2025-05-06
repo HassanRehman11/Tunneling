@@ -24,7 +24,7 @@ while True:
             }
 
             try:
-                response = requests.post("http://127.0.0.1:8000/esp-data", json=sensor_data)
+                response = requests.post("http://192.168.205.26:8000/esp-data", json=sensor_data)
                 response.raise_for_status()
                 print("✅ Data sent successfully:", response.json())
             except requests.exceptions.RequestException as e:

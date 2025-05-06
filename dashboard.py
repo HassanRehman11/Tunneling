@@ -11,7 +11,7 @@ while True:
         break
     except serial.SerialException as e:
         print(f"⏳ Waiting for serial port: {e}")
-        time.sleep(1)
+        time.sleep(20)
 
 # --- Main Loop ---
 while True:

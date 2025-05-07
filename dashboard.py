@@ -32,13 +32,17 @@ while True:
             }
 
             try:
-                response = requests.post("http://esp32-lb-439368524.us-east-1.elb.amazonaws.com/esp-data", json=sensor_data)
+                headers = {
+                    "accept": "application/json",
+                    "x-api-key": "]H`+zZXUPLIo;,o2~~z5.EaDs]CV`K[0QtAZ'ziJ6,FUJ3BYnbC3.aH=0&6=aRS"
+                }
+                response = requests.post("http://esp32-lb-439368524.us-east-1.elb.amazonaws.com/esp-data", json=sensor_data, headers=headers)
                 response.raise_for_status()
                 print("✅ Data sent successfully:", response.json())
             except requests.exceptions.RequestException as e:
                 print("❌ Request failed:", e)
 
-        time.sleep(1)
+        time.sleep(30)
 
     except Exception as e:
         print(f"⚠️ Serial read error: {e}")

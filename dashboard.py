@@ -42,8 +42,6 @@ while True:
             except requests.exceptions.RequestException as e:
                 print("❌ Request failed:", e)
 
-        time.sleep(30)
-
     except Exception as e:
         print(f"⚠️ Serial read error: {e}")
         time.sleep(1)
